@@ -3,6 +3,8 @@ package com.appdevg6.smartcite.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "sessions")
 public class Session {
@@ -23,6 +25,7 @@ public class Session {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_view_id")
+    @JsonIgnore 
     private User user;
     
     public Session() {
