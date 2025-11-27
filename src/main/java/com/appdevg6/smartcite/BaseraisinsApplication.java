@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class BaseraisinsApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(BaseraisinsApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(BaseraisinsApplication.class, args);
+    }
 }
