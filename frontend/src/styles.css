@@ -1,0 +1,11 @@
+* { box-sizing: border-box; }
+body { font-family: Arial, Helvetica, sans-serif; margin: 0; background:#f4f6ff; color:#222 }
+.topbar { background:#5b6df6; color:white; padding:10px 16px; display:flex; align-items:center; justify-content:space-between }
+.topbar .brand { font-weight:700 }
+.topbar .navlinks a { color:white; margin-left:12px; text-decoration:none }
+.main { padding:20px }
+.card { background:white; border-radius:6px; padding:18px; box-shadow:0 2px 6px rgba(50,50,93,0.08); max-width:760px; margin:20px auto }
+.form-field { margin-bottom:12px }
+.form-field input, .form-field select, .form-field textarea { width:100%; padding:8px; border-radius:4px; border:1px solid #ccc }
+.btn { background:#5b6df6; color:white; padding:8px 12px; border:none; border-radius:6px; cursor:pointer }
+.flex-row { display:flex; gap:12px }
