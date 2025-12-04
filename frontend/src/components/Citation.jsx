@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import api from '../api'
 import './Citation.css'
 
@@ -14,10 +14,52 @@ export default function Citation(){
   const [styleId, setStyleId] = useState('')
   const [selectedStyle, setSelectedStyle] = useState('Citation Style')
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false)
   const dropdownRef = useRef(null)
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(()=>{
+    // Check if we're editing a citation (coming from Dashboard edit button)
+    if (location.state?.formData) {
+      const formData = location.state.formData
+      console.log('Loading form data from edit:', formData)
+      setTitle(formData.title || '')
+      setAuthor(formData.author || '')
+      setPublisher(formData.publisher || '')
+      setPublication(formData.publication || '')
+      setYear(formData.year?.toString() || '')
+      setUrl(formData.url || '')
+      setStyleId(formData.styleId?.toString() || '')
+      setSelectedStyle(formData.selectedStyle || 'Citation Style')
+    } else {
+      // Load saved form data from localStorage
+      const savedFormData = localStorage.getItem('citationFormData')
+      console.log('Loading saved form data:', savedFormData)
+      if (savedFormData) {
+        try {
+          const formData = JSON.parse(savedFormData)
+          console.log('Parsed form data:', formData)
+          setTitle(formData.title || '')
+          setAuthor(formData.author || '')
+          setPublisher(formData.publisher || '')
+          setPublication(formData.publication || '')
+          setYear(formData.year || '')
+          setUrl(formData.url || '')
+          setStyleId(formData.styleId || '')
+          setSelectedStyle(formData.selectedStyle || 'Citation Style')
+        } catch (e) {
+          console.error('Failed to load saved form data', e)
+        }
+      } else {
+        console.log('No saved form data found in localStorage')
+      }
+    }
+    
+    // Mark as initialized so the save effect doesn't trigger on mount
+    setIsInitialized(true)
+    
+    // Load citation styles
     async function loadStyles(){
       try{
         const res = await api.get('/citation-styles')
@@ -50,6 +92,26 @@ export default function Citation(){
     loadStyles()
   },[])
 
+  // Save form data to localStorage whenever it changes (but only after initialization)
+  useEffect(() => {
+    if (!isInitialized) {
+      setIsInitialized(true)
+      return
+    }
+    
+    const formData = {
+      title,
+      author,
+      publisher,
+      publication,
+      year,
+      url,
+      styleId,
+      selectedStyle
+    }
+    localStorage.setItem('citationFormData', JSON.stringify(formData))
+  }, [title, author, publisher, publication, year, url, styleId, selectedStyle, isInitialized])
+
   // Simple click outside handler
   useEffect(() => {
     const handleClick = (e) => {
@@ -81,6 +143,19 @@ export default function Citation(){
   const handleDropdownItemClick = (id, name) => {
     console.log('Dropdown item clicked:', id, name)
     handleSelectStyle(id, name)
+  }
+
+  const handleClear = (e) => {
+    e.preventDefault()
+    setTitle('')
+    setAuthor('')
+    setPublisher('')
+    setPublication('')
+    setYear('')
+    setUrl('')
+    setStyleId('')
+    setSelectedStyle('Citation Style')
+    localStorage.removeItem('citationFormData')
   }
 
   const handleSubmit = async (e) => {
@@ -192,7 +267,10 @@ export default function Citation(){
             </div>
           </div>
           
-          <button className="citation-btn" type="submit">Generate Citation</button>
+          <div className="citation-buttons">
+            <button className="citation-btn" type="submit">Generate Citation</button>
+            <button className="citation-btn-clear" type="button" onClick={handleClear}>Clear</button>
+          </div>
         </form>
       </div>
     </div>

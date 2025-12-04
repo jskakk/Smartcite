@@ -7,6 +7,7 @@ import Register from './components/Register'
 import Dashboard from './components/Dashboard'
 import Citation from './components/Citation'
 import Result from './components/Result'
+import CitationDetail from './components/CitationDetail'
 import Grammar from './components/Grammar'
 import Settings from './components/Settings'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -64,6 +65,7 @@ export default function App() {
           <Route path="/dashboard" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Dashboard/></ProtectedRoute>} />
           <Route path="/citation" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Citation/></ProtectedRoute>} />
           <Route path="/citation/result" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Result/></ProtectedRoute>} />
+          <Route path="/citation/detail" element={<ProtectedRoute isAuthenticated={isAuthenticated}><CitationDetail/></ProtectedRoute>} />
           <Route path="/grammar" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Grammar/></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Settings/></ProtectedRoute>} />
         </Routes>

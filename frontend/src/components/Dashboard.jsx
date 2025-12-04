@@ -26,18 +26,72 @@ export default function Dashboard(){
 
   const loadCitations = async () => {
     try {
-      const res = await api.get('/citations')
-      if (res.data && Array.isArray(res.data)) {
-        // Get the 4 most recent citations
-        setCitations(res.data.slice(0, 4))
+      // Get current user
+      const storedUser = localStorage.getItem('user')
+      if (!storedUser) {
+        setCitations([])
+        return
       }
+      
+      const user = JSON.parse(storedUser)
+      const userId = user.userId || user.email
+      
+      // Load saved citations for this specific user
+      const userCitationsKey = `citations_${userId}`
+      const savedCitations = JSON.parse(localStorage.getItem(userCitationsKey) || '[]')
+      
+      // Get the 4 most recent citations
+      setCitations(savedCitations.slice(0, 4))
     } catch (err) {
       console.error('Failed to load citations:', err)
+      setCitations([])
     }
   }
 
   const handleCitationClick = (citation) => {
-    navigate('/citation/result', { state: { citation } })
+    navigate('/citation/detail', { state: { citation } })
+  }
+
+  const handleDelete = (e, citationId) => {
+    e.stopPropagation()
+    if (confirm('Are you sure you want to delete this citation?')) {
+      try {
+        const storedUser = localStorage.getItem('user')
+        if (!storedUser) return
+        
+        const user = JSON.parse(storedUser)
+        const userId = user.userId || user.email
+        const userCitationsKey = `citations_${userId}`
+        
+        const savedCitations = JSON.parse(localStorage.getItem(userCitationsKey) || '[]')
+        const filtered = savedCitations.filter(c => c.citationId !== citationId)
+        
+        localStorage.setItem(userCitationsKey, JSON.stringify(filtered))
+        setCitations(filtered.slice(0, 4))
+      } catch (err) {
+        console.error('Failed to delete citation:', err)
+      }
+    }
+  }
+
+  const handleEdit = (e, citation) => {
+    e.stopPropagation()
+    // Navigate to Citation form and pre-fill with citation data
+    navigate('/citation', { 
+      state: { 
+        editingCitation: citation,
+        formData: {
+          title: citation.title,
+          author: citation.author,
+          publisher: citation.publisher,
+          publication: citation.publication,
+          year: citation.year,
+          url: citation.url,
+          styleId: citation.style?.styleId,
+          selectedStyle: citation.style?.styleName
+        }
+      }
+    })
   }
 
   return (

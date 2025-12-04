@@ -76,6 +76,7 @@
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  justify-content: space-between;
 }
 
 .citation-card::before {
@@ -99,6 +100,12 @@
 
 .citation-card:hover::before {
   transform: scaleX(1);
+}
+
+.citation-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .citation-style-badge {
@@ -143,6 +150,47 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  margin-bottom: 12px;
+}
+
+.citation-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 12px;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 12px;
+}
+
+.action-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+}
+
+.action-icon:hover {
+  background: #e5e7eb;
+  transform: scale(1.1);
+}
+
+.action-icon:active {
+  transform: scale(0.95);
+}
+
+.edit-icon {
+  color: #6366f1;
+}
+
+.delete-icon {
+  color: #ef4444;
 }
 
 .empty-card {

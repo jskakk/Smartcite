@@ -6,6 +6,7 @@ export default function Result() {
   const { state } = useLocation()
   const citation = state?.citation
   const [copied, setCopied] = useState(false)
+  const [saved, setSaved] = useState(false)
   const navigate = useNavigate()
 
   const handleCopy = async () => {
@@ -20,16 +21,45 @@ export default function Result() {
     }
   }
 
-  const handleDownload = () => {
+  const handleSave = () => {
     if (!citation) return
-    const textToDownload = citation.generatedCitation || JSON.stringify(citation, null, 2)
-    const blob = new Blob([textToDownload], { type: 'text/plain' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = 'citation.txt'
-    link.click()
-    URL.revokeObjectURL(url)
+    
+    // Get current user
+    const storedUser = localStorage.getItem('user')
+    if (!storedUser) {
+      alert('Please log in to save citations')
+      return
+    }
+    
+    const user = JSON.parse(storedUser)
+    const userId = user.userId || user.email
+    const userCitationsKey = `citations_${userId}`
+    
+    // Get existing saved citations for this user
+    const savedCitations = JSON.parse(localStorage.getItem(userCitationsKey) || '[]')
+    
+    // Check if citation already exists (by citationId)
+    const exists = savedCitations.some(c => c.citationId === citation.citationId)
+    
+    if (!exists) {
+      // Add the new citation to the beginning of the array
+      savedCitations.unshift(citation)
+      
+      // Keep only the 10 most recent citations
+      const limitedCitations = savedCitations.slice(0, 10)
+      
+      // Save back to localStorage with user-specific key
+      localStorage.setItem(userCitationsKey, JSON.stringify(limitedCitations))
+      
+      setSaved(true)
+      setTimeout(() => {
+        setSaved(false)
+        // Navigate to dashboard to show the saved citation
+        navigate('/dashboard')
+      }, 1000)
+    } else {
+      alert('This citation is already saved!')
+    }
   }
 
   return (
@@ -46,13 +76,21 @@ export default function Result() {
           )}
         </div>
         <div className="result-actions">
-          <button className="back-btn" onClick={() => navigate('/citation')}>Back</button>
+          <button className="back-btn" title="Back" onClick={() => navigate('/citation')}>← Back</button>
           <div className="action-buttons">
-            <button className="result-btn copy-btn" onClick={handleCopy}>
-              {copied ? 'Copied!' : 'COPY'}
+            <button 
+              className="icon-btn copy-btn" 
+              title={copied ? 'Copied!' : 'Copy citation'}
+              onClick={handleCopy}
+            >
+              📋
             </button>
-            <button className="result-btn download-btn" onClick={handleDownload}>
-              ↓
+            <button 
+              className="icon-btn save-btn" 
+              title={saved ? 'Saved!' : 'Save citation'}
+              onClick={handleSave}
+            >
+              💾
             </button>
           </div>
         </div>
