@@ -115,7 +115,7 @@ public class CitationServiceImpl implements CitationService {
         sb.append("[1] ").append(author).append(", \"").append(title).append(",\" ");
         if (!publisher.isEmpty()) sb.append(publisher).append(", ");
         if (!year.isEmpty()) sb.append(year);
-        if (!url.isEmpty()) sb.append(". [Online]. Available: ").append(url);
+        if (!url.isEmpty()) sb.append(". Available: ").append(url);
         sb.append(".");
         return sb.toString();
     }
