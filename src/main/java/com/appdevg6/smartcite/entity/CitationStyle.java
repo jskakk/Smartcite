@@ -1,6 +1,7 @@
 package com.appdevg6.smartcite.entity;
  
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
  
@@ -20,6 +21,7 @@ public class CitationStyle {
     private String description;
  
     @OneToMany(mappedBy = "style", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Citation> citations = new ArrayList<>();
  
     public CitationStyle() {}

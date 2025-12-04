@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import api from '../api'
+import './Auth.css'
 
-export default function Login(){
+export default function Login({ setIsAuthenticated }){
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
@@ -13,7 +14,9 @@ export default function Login(){
       // Simple example: check user exists by email then redirect to dashboard
       const res = await api.get(`/users/email/${encodeURIComponent(email)}`)
       if(res.data && res.data.success){
-        // in real app, validate password; here we assume success
+        // Store user data in localStorage
+        localStorage.setItem('user', JSON.stringify(res.data.data))
+        setIsAuthenticated(true)
         navigate('/dashboard')
       }
     }catch(err){
@@ -22,22 +25,34 @@ export default function Login(){
   }
 
   return (
-    <div className="card">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div className="form-field">
-          <label>Email</label>
-          <input value={email} onChange={e=>setEmail(e.target.value)} />
-        </div>
-        <div className="form-field">
-          <label>Password</label>
-          <input type="password" value={password} onChange={e=>setPassword(e.target.value)} />
-        </div>
-        <div className="flex-row">
-          <button className="btn" type="submit">Login</button>
-          <Link to="/register"><button type="button" className="btn">Register</button></Link>
-        </div>
-      </form>
+    <div className="auth-container">
+      <div className="auth-card">
+        <h1 className="auth-title">Login</h1>
+        <form onSubmit={handleLogin} className="auth-form">
+          <div className="auth-field">
+            <label>Email</label>
+            <input 
+              type="email" 
+              value={email} 
+              onChange={e=>setEmail(e.target.value)} 
+              required
+            />
+          </div>
+          <div className="auth-field">
+            <label>Password</label>
+            <input 
+              type="password" 
+              value={password} 
+              onChange={e=>setPassword(e.target.value)} 
+              required
+            />
+          </div>
+          <button className="auth-btn primary" type="submit">Login</button>
+          <Link to="/register">
+            <button type="button" className="auth-btn secondary">Register</button>
+          </Link>
+        </form>
+      </div>
     </div>
   )
 }

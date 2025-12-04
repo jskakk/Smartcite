@@ -1,0 +1,211 @@
+/* Citation Form Styles */
+.citation-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 80px);
+  padding: 40px 20px;
+}
+
+.citation-card {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 520px;
+  overflow: visible;
+  box-shadow: 0 4px 20px rgba(91, 109, 246, 0.15);
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.citation-header {
+  background: #6366f1;
+  padding: 20px 32px;
+  text-align: center;
+}
+
+.citation-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+}
+
+.citation-form {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.citation-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.citation-field input,
+.citation-field select {
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: white;
+  transition: all 0.2s;
+}
+
+.citation-field input::placeholder {
+  color: #9ca3af;
+}
+
+.citation-field input:focus,
+.citation-field select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.citation-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.citation-row input {
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: white;
+  transition: all 0.2s;
+}
+
+.citation-row input::placeholder {
+  color: #9ca3af;
+}
+
+.citation-row input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.citation-btn {
+  margin-top: 8px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #6366f1;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.citation-btn:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.citation-btn:active {
+  transform: translateY(0);
+}
+
+.dropdown-wrapper {
+  position: relative;
+}
+
+.dropdown-toggle {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-toggle:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.dropdown-toggle::after {
+  content: '▼';
+  font-size: 0.7rem;
+  color: #6366f1;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  min-width: 200px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: #374151;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.dropdown-item:hover {
+  background: #f3f4f6;
+}
+
+@media (max-width: 600px) {
+  .citation-container {
+    padding: 20px 12px;
+  }
+
+  .citation-card {
+    max-width: 100%;
+  }
+
+  .citation-form {
+    padding: 24px 20px;
+  }
+
+  .citation-header {
+    padding: 16px 20px;
+  }
+
+  .citation-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .citation-row {
+    grid-template-columns: 1fr;
+  }
+}

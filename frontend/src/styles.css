@@ -1,8 +1,11 @@
 * { box-sizing: border-box; }
-body { font-family: Arial, Helvetica, sans-serif; margin: 0; background:#f4f6ff; color:#222 }
+body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: linear-gradient(135deg, #f4f6ff 0%, #e8ebff 100%); color:#222; min-height: 100vh; }
 .topbar { background:#5b6df6; color:white; padding:10px 16px; display:flex; align-items:center; justify-content:space-between }
-.topbar .brand { font-weight:700 }
+.topbar .brand { font-weight:700; color:white; text-decoration:none }
+.topbar .navlinks { display:flex; align-items:center }
 .topbar .navlinks a { color:white; margin-left:12px; text-decoration:none }
+.logout-btn { background:transparent; color:white; border:1px solid white; padding:6px 12px; border-radius:4px; cursor:pointer; margin-left:12px; font-size:14px }
+.logout-btn:hover { background:rgba(255,255,255,0.1) }
 .main { padding:20px }
 .card { background:white; border-radius:6px; padding:18px; box-shadow:0 2px 6px rgba(50,50,93,0.08); max-width:760px; margin:20px auto }
 .form-field { margin-bottom:12px }

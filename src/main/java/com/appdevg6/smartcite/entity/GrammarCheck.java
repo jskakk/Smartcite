@@ -19,6 +19,9 @@ public class GrammarCheck {
     @Column(columnDefinition = "TEXT")
     private String highlightedPhrases;
 
+    @Column(columnDefinition = "TEXT")
+    private String correctedText;
+
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "grammarCheck", cascade = CascadeType.ALL)
@@ -35,6 +38,9 @@ public class GrammarCheck {
 
     public String getHighlightedPhrases() { return highlightedPhrases; }
     public void setHighlightedPhrases(String highlightedPhrases) { this.highlightedPhrases = highlightedPhrases; }
+
+    public String getCorrectedText() { return correctedText; }
+    public void setCorrectedText(String correctedText) { this.correctedText = correctedText; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

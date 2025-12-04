@@ -53,7 +53,71 @@ public class CitationServiceImpl implements CitationService {
             citation.setStyle(style);
         }
  
+        // Generate citation based on style
+        citation.setGeneratedCitation(generateCitationString(citation));
+        
         return citationRepository.save(citation);
+    }
+    
+    private String generateCitationString(Citation citation) {
+        String styleName = citation.getStyle() != null ? citation.getStyle().getStyleName() : "Unknown";
+        String author = citation.getAuthor() != null ? citation.getAuthor() : "Unknown Author";
+        String title = citation.getTitle() != null ? citation.getTitle() : "Unknown Title";
+        String publisher = citation.getPublisher() != null ? citation.getPublisher() : "";
+        String year = citation.getYear() != null ? citation.getYear().toString() : "";
+        String url = citation.getUrl() != null ? citation.getUrl() : "";
+        
+        switch(styleName.toUpperCase()) {
+            case "MLA":
+                return generateMLA(author, title, publisher, year, url);
+            case "APA":
+                return generateAPA(author, title, publisher, year, url);
+            case "CHICAGO":
+                return generateChicago(author, title, publisher, year, url);
+            case "IEEE":
+                return generateIEEE(author, title, publisher, year, url);
+            default:
+                return author + ". " + title + ". " + publisher + ", " + year + ". " + url;
+        }
+    }
+    
+    private String generateMLA(String author, String title, String publisher, String year, String url) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(author).append(". \"").append(title).append(".\"");
+        if (!publisher.isEmpty()) sb.append(" ").append(publisher);
+        if (!year.isEmpty()) sb.append(", ").append(year);
+        if (!url.isEmpty()) sb.append(". ").append(url);
+        sb.append(".");
+        return sb.toString();
+    }
+    
+    private String generateAPA(String author, String title, String publisher, String year, String url) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(author).append(" (").append(year).append("). ");
+        sb.append(title).append(". ");
+        if (!publisher.isEmpty()) sb.append(publisher).append(".");
+        if (!url.isEmpty()) sb.append(" Retrieved from ").append(url);
+        return sb.toString();
+    }
+    
+    private String generateChicago(String author, String title, String publisher, String year, String url) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(author).append(". ").append(title).append(". ");
+        if (!publisher.isEmpty()) sb.append(publisher);
+        if (!year.isEmpty()) sb.append(", ").append(year);
+        if (!url.isEmpty()) sb.append(". ").append(url);
+        sb.append(".");
+        return sb.toString();
+    }
+    
+    private String generateIEEE(String author, String title, String publisher, String year, String url) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[1] ").append(author).append(", \"").append(title).append(",\" ");
+        if (!publisher.isEmpty()) sb.append(publisher).append(", ");
+        if (!year.isEmpty()) sb.append(year);
+        if (!url.isEmpty()) sb.append(". [Online]. Available: ").append(url);
+        sb.append(".");
+        return sb.toString();
     }
  
     @Override

@@ -1,0 +1,141 @@
+/* Grammar Check Styles */
+.grammar-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 80px);
+  padding: 40px 20px;
+}
+
+.grammar-card {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 900px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(91, 109, 246, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.grammar-header {
+  background: #6366f1;
+  padding: 20px 32px;
+  text-align: center;
+}
+
+.grammar-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+}
+
+.grammar-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 32px;
+}
+
+.grammar-box {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.grammar-box textarea {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.grammar-box textarea:focus {
+  outline: none;
+}
+
+.grammar-box.result-box {
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.corrected-text {
+  color: #1f2937;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.grammar-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 0 32px 32px 32px;
+}
+
+.grammar-btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #6366f1;
+  color: white;
+}
+
+.grammar-btn:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.grammar-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .grammar-container {
+    padding: 20px 12px;
+  }
+
+  .grammar-content {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .grammar-header {
+    padding: 16px 20px;
+  }
+
+  .grammar-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .grammar-actions {
+    padding: 0 20px 20px 20px;
+    flex-direction: column;
+  }
+
+  .grammar-btn {
+    width: 100%;
+  }
+}
