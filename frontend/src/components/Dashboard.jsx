@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import api from '../api'
 import './Dashboard.css'
 
@@ -7,6 +7,7 @@ export default function Dashboard(){
   const [userName, setUserName] = useState('User')
   const [citations, setCitations] = useState([])
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     // Get user from localStorage
@@ -20,9 +21,9 @@ export default function Dashboard(){
       }
     }
 
-    // Fetch recent citations
+    // Fetch recent citations - will reload whenever we navigate to this page
     loadCitations()
-  }, [])
+  }, [location])
 
   const loadCitations = async () => {
     try {
