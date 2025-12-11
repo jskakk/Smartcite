@@ -62,6 +62,53 @@ export default function Result() {
     }
   }
 
+  const formatCitation = (citationText, style) => {
+    if (!citationText) return citationText
+    
+    // For all formats, we need to italicize the book title
+    // Pattern varies by format
+    const parts = citationText.split('. ')
+    
+    if (style === 'MLA' && parts.length >= 3) {
+      // MLA: Author. Title. Publisher, year. URL
+      // parts[0] = Author, parts[1] = Title, rest = Publisher, year, URL
+      return (
+        <>
+          {parts[0]}. <em>{parts[1]}</em>. {parts.slice(2).join('. ')}
+        </>
+      )
+    } else if (style === 'APA' && parts.length >= 3) {
+      // APA: Author (Year). Title. Publisher. URL
+      // parts[0] = Author (Year), parts[1] = Title, rest = Publisher, URL
+      return (
+        <>
+          {parts[0]}. <em>{parts[1]}</em>. {parts.slice(2).join('. ')}
+        </>
+      )
+    } else if (style === 'Chicago' && parts.length >= 3) {
+      // Chicago: Author. Title. Place: Publisher, year. URL
+      // parts[0] = Author, parts[1] = Title, rest = Place: Publisher, year, URL
+      return (
+        <>
+          {parts[0]}. <em>{parts[1]}</em>. {parts.slice(2).join('. ')}
+        </>
+      )
+    } else if (style === 'IEEE' && parts.length >= 2) {
+      // IEEE: M. L. Santos, Title. Publisher, year. [Online]. Available: URL
+      const firstPart = parts[0] // Author, Title
+      const titleStart = firstPart.indexOf(', ') + 2
+      const author = firstPart.substring(0, titleStart - 2)
+      const title = firstPart.substring(titleStart)
+      return (
+        <>
+          {author}, <em>{title}</em>. {parts.slice(1).join('. ')}
+        </>
+      )
+    }
+    
+    return citationText
+  }
+
   return (
     <div className="result-container">
       <div className="result-box">
@@ -71,7 +118,10 @@ export default function Result() {
             <p className="no-result">No citation generated yet</p>
           ) : (
             <p className="citation-output">
-              {citation.generatedCitation || JSON.stringify(citation, null, 2)}
+              {formatCitation(
+                citation.generatedCitation || JSON.stringify(citation, null, 2),
+                citation.style?.styleName
+              )}
             </p>
           )}
         </div>

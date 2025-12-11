@@ -24,6 +24,9 @@ public class Citation {
     @Column(name = "publisher")
     private String publisher;
  
+    @Column(name = "publication_place")
+    private String publicationPlace;
+ 
     @Column(name = "url")
     private String url;
  
@@ -64,6 +67,9 @@ public class Citation {
  
     public String getPublisher() { return publisher; }
     public void setPublisher(String publisher) { this.publisher = publisher; }
+ 
+    public String getPublicationPlace() { return publicationPlace; }
+    public void setPublicationPlace(String publicationPlace) { this.publicationPlace = publicationPlace; }
  
     public String getUrl() { return url; }
     public void setUrl(String url) { this.url = url; }
