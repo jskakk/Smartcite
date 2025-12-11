@@ -146,6 +146,32 @@ public class UserController {
         }
     }
     
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
+        try {
+            String email = credentials.get("email");
+            String password = credentials.get("password");
+            
+            if (email == null || password == null) {
+                return createErrorResponse("Email and password are required", HttpStatus.BAD_REQUEST);
+            }
+            
+            Optional<User> userOpt = userService.getUserByEmail(email);
+            if (userOpt.isEmpty()) {
+                return createErrorResponse("Invalid email or password", HttpStatus.UNAUTHORIZED);
+            }
+            
+            User user = userOpt.get();
+            if (!user.getPassword().equals(password)) {
+                return createErrorResponse("Invalid email or password", HttpStatus.UNAUTHORIZED);
+            }
+            
+            return createSuccessResponse("Login successful", user, HttpStatus.OK);
+        } catch (Exception e) {
+            return createErrorResponse("Login error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     private ResponseEntity<Map<String, Object>> createSuccessResponse(String message, Object data, HttpStatus status) {
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);

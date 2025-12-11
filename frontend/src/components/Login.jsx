@@ -11,8 +11,11 @@ export default function Login({ setIsAuthenticated }){
   const handleLogin = async (e) => {
     e.preventDefault()
     try{
-      // Simple example: check user exists by email then redirect to dashboard
-      const res = await api.get(`/users/email/${encodeURIComponent(email)}`)
+      // Send email and password for authentication
+      const res = await api.post('/users/login', {
+        email: email,
+        password: password
+      })
       if(res.data && res.data.success){
         // Store user data in localStorage
         localStorage.setItem('user', JSON.stringify(res.data.data))

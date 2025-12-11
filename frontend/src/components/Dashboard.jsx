@@ -10,19 +10,29 @@ export default function Dashboard(){
   const location = useLocation()
 
   useEffect(() => {
-    // Get user from localStorage
-    const storedUser = localStorage.getItem('user')
-    if (storedUser) {
-      try {
-        const user = JSON.parse(storedUser)
-        setUserName(user.name || 'User')
-      } catch (e) {
-        console.error('Failed to parse user data', e)
+    // Function to update user name
+    const updateUserName = () => {
+      const storedUser = localStorage.getItem('user')
+      if (storedUser) {
+        try {
+          const user = JSON.parse(storedUser)
+          setUserName(user.name || 'User')
+        } catch (e) {
+          console.error('Failed to parse user data', e)
+        }
       }
     }
 
-    // Fetch recent citations - will reload whenever we navigate to this page
+    // Initial load
+    updateUserName()
     loadCitations()
+
+    // Listen for storage events (triggered when Settings updates user data)
+    window.addEventListener('storage', updateUserName)
+    
+    return () => {
+      window.removeEventListener('storage', updateUserName)
+    }
   }, [location])
 
   const loadCitations = async () => {
